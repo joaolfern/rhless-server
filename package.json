@@ -1,9 +1,8 @@
 {
-  "type": "module",
   "name": "rhless-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "dependencies": {
     "axios": "^0.27.2",
     "cors": "^2.8.5",
@@ -32,10 +31,11 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "jest": "^28.0.3",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "ts-node": "^10.7.0"
   },
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon --watch 'src/' --exec 'ts-node src/index.ts' -e ts"
   },
   "author": "",
   "license": "ISC"
