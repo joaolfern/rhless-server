@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
 import UserSchema from '../models/user'
 import { IUser } from '../types'
+import bcrypt from 'bcrypt'
 
 type IndexResType = IUser[]
 
-module.exports = {
+export default {
   index: async (req: Request, res: Response<IndexResType>) => {
     try {
       const users = await UserSchema.find()
@@ -15,22 +16,30 @@ module.exports = {
     }
   },
   show: async (req: Request, res: Response<IUser>) => {
-    const { id } = req.params
+    const { _id } = req.params
     try {
-      const user = await UserSchema.findById(id)
+      const user = await UserSchema.findById(_id)
       res.status(200).json(user)
     } catch (err) {
       res.status(400).json(err)
     }
   },
   create: async (req: Request, res: Response<string>) => {
-    const body = req.body
-    const User = new UserSchema(body)
+    const {password, ...data} = req.body
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    const User = new UserSchema({
+      ...data,
+      password: hashedPassword
+    })
 
     try {
-      User.save()
+      await User.save()
       res.status(200).json(`Usuário cadastrado com sucesso!`)
     } catch (err) {
+      console.log(err)
       res.status(400).json(err)
     }
   },

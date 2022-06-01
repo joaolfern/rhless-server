@@ -18,11 +18,16 @@ const UserSchema = new mongoose.Schema<IUser>({
     type: String
   },
   type: {
-    type: String
+    type: String,
+    required: true
   },
   createdAt: {
     type: Date,
     default: new Date()
+  },
+  password: {
+    type: String,
+    required: true
   }
 })
 
