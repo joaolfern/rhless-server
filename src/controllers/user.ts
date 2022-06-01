@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import userMocks from '../mocks/user'
+import UserSchema from '../models/user'
 import { IUser } from '../types'
 
 type IndexResType = IUser[]
@@ -7,39 +7,53 @@ type IndexResType = IUser[]
 module.exports = {
   index: async (req: Request, res: Response<IndexResType>) => {
     try {
-      res.send(userMocks.index)
+      const users = await UserSchema.find()
+      res.status(200).json(users)
     } catch (err) {
+      console.log(err)
       res.status(400).json(err)
     }
   },
   show: async (req: Request, res: Response<IUser>) => {
     const { id } = req.params
     try {
-      res.send(userMocks.show)
+      const user = await UserSchema.findById(id)
+      res.status(200).json(user)
     } catch (err) {
       res.status(400).json(err)
     }
   },
-  create: async (req: Request, res: Response<IndexResType>) => {
+  create: async (req: Request, res: Response<string>) => {
+    const body = req.body
+    const User = new UserSchema(body)
+
+    try {
+      User.save()
+      res.status(200).json(`Usuário cadastrado com sucesso!`)
+    } catch (err) {
+      res.status(400).json(err)
+    }
+  },
+  update: async (req: Request, res: Response<string>) => {
+    const { _id } = req.params
     const body = req.body
     try {
-      res.send(userMocks.index)
+      await UserSchema.updateOne(
+        { _id },
+        body
+      )
+
+      res.json(`Usuário atualizado com sucesso!`)
     } catch (err) {
       res.status(400).json(err)
     }
   },
-  update: async (req: Request, res: Response<IUser>) => {
-    const { id } = req.params
+  delete: async (req: Request, res: Response<string>) => {
+    const { _id } = req.params
     try {
-      res.send(userMocks.update)
-    } catch (err) {
-      res.status(400).json(err)
-    }
-  },
-  delete: async (req: Request, res: Response<IUser>) => {
-    const { id } = req.params
-    try {
-      res.send(userMocks.update)
+      await UserSchema.deleteOne({ _id })
+
+      res.json(`Usuário deletado com sucesso!`)
     } catch (err) {
       res.status(400).json(err)
     }

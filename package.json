@@ -32,10 +32,10 @@
     "eslint-plugin-promise": "^6.0.0",
     "jest": "^28.0.3",
     "nodemon": "^2.0.16",
-    "ts-node": "^10.7.0"
+    "ts-node": "^10.8.0"
   },
   "scripts": {
-    "dev": "nodemon --watch 'src/' --exec 'ts-node src/index.ts' -e ts"
+    "dev": "nodemon src/index.ts"
   },
   "author": "",
   "license": "ISC"
