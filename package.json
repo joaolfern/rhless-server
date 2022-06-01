@@ -35,7 +35,8 @@
     "ts-node": "^10.8.0"
   },
   "scripts": {
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "start": "node src/index.ts"
   },
   "author": "",
   "license": "ISC"
