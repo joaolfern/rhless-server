@@ -28,6 +28,20 @@ const unauthValidation = {
       .string()
       .required()
       .label('Confirmação de senha')
+  }).validate(req.body),
+  login: (req, res) =>  Joi.object({
+    email: Joi
+      .string()
+      .max(500)
+      .required()
+      .email()
+      .label('Email'),
+    password: Joi
+      .string()
+      .max(251)
+      .required()
+      .label('Senha'),
+
   }).validate(req.body)
 }
 

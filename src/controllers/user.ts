@@ -14,7 +14,10 @@ export default {
     }
 
     try {
-      const users = await UserSchema.paginate(params, query) as PaginateResult<IUser & Document>
+      const users = await UserSchema.paginate(params, {
+        ...query,
+        sort: { createdAt: -1 }
+      }) as PaginateResult<IUser & Document>
       res.status(200).json(users)
     } catch (err) {
       console.log(err)
@@ -64,6 +67,9 @@ export default {
     const { _id } = req.params
     const { password, confirmPassword, ...data } = req.body || {}
     let hashedPassword
+
+    const { error } = userValidation.update(req, res)
+    if (error) return res.status(401).json(error.details[0].message)
 
     if (password) {
       const salt = await bcrypt.genSalt(10)

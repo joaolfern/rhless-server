@@ -2,7 +2,7 @@ import paginate from 'mongoose-paginate-v2'
 import mongoose, { Schema, Document } from 'mongoose'
 import { DocumentPaginatedModel, IUser } from '../types'
 
-const UserSchema: Schema = new mongoose.Schema({
+const UserSchema: Schema = new mongoose.Schema<IUser>({
   name: {
     type: String,
     required: true

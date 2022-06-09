@@ -22,7 +22,7 @@ export interface IUser extends Document {
 export type _jobStatus = 'active' | 'inactive'
 export type _jobTypes = 'intern' | 'fullTime'
 
-export type IJob = {
+export interface IJob extends Document {
   _id: string
   name: string
   type: _jobTypes
@@ -30,5 +30,6 @@ export type IJob = {
   department: string
   description: string
   status: _jobStatus
-  author: IUser
+  author: string
+  createdAt: Date
 }

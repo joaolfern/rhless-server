@@ -41,6 +41,9 @@ export default {
   }>) => {
     const { email, password } = req.body
 
+    const { error } = unauthValidation.login(req, res)
+    if (error) return res.status(401).json(error.details[0].message)
+
     try {
       const user = await UserSchema.findOne({ email })
       if (!user) return res.status(401).json('Usuário não encontrado')
