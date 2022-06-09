@@ -59,23 +59,25 @@ export default {
   },
   update: async (req: Request, res: Response<string>) => {
     const { _id } = req.params
-    const body = req.body || {}
+    const { password, confirmPassword, ...data } = req.body || {}
+    let hashedPassword
 
-    if (body.password) {
+    if (password) {
       const salt = await bcrypt.genSalt(10)
-      const hashedPassword = await bcrypt.hash(body.password, salt)
-
-      body.password = hashedPassword
+      hashedPassword = await bcrypt.hash(password, salt)
     }
 
-    const matchingEmailUser = await UserSchema.findOne({ email: body.email })
+    const matchingEmailUser = await UserSchema.findOne({ email: data.email })
     const hasAlreadyUsedEmail = matchingEmailUser && !matchingEmailUser._id?.equals?.(_id)
     if (hasAlreadyUsedEmail) return res.status(401).json('Email já cadastrado')
 
     try {
       await UserSchema.updateOne(
         { _id },
-        body
+        {
+          ...data,
+          ...(hashedPassword ?  [{ password: hashedPassword}] : [])
+        }
       )
 
       res.json(`Usuário atualizado com sucesso!`)
