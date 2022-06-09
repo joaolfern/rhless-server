@@ -1,8 +1,14 @@
-export type _userStatus = 'active' | 'inactive'
+import { Document, PaginateModel } from 'mongoose'
 
-export type _userType = 'headhunter' | 'candidate'
+export interface DocumentPaginatedModel<T extends Document> extends PaginateModel<T> {}
 
-export type IUser = {
+
+export type _userStatus = 'active' | 'inactive' | 'pending'
+
+export type _userType = 'admin' | 'headhunter' | 'candidate'
+
+
+export interface IUser extends Document {
   _id: string
   name: string
   picture: string
@@ -11,4 +17,18 @@ export type IUser = {
   status: _userStatus
   type: _userType
   createdAt: Date
+}
+
+export type _jobStatus = 'active' | 'inactive'
+export type _jobTypes = 'intern' | 'fullTime'
+
+export type IJob = {
+  _id: string
+  name: string
+  type: _jobTypes
+  city: string
+  department: string
+  description: string
+  status: _jobStatus
+  author: IUser
 }

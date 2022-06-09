@@ -1,7 +1,8 @@
-import mongoose from 'mongoose'
-import { IUser } from '../types'
+import paginate from 'mongoose-paginate-v2'
+import mongoose, { Schema, Document } from 'mongoose'
+import { DocumentPaginatedModel, IUser } from '../types'
 
-const UserSchema = new mongoose.Schema<IUser>({
+const UserSchema: Schema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -29,6 +30,9 @@ const UserSchema = new mongoose.Schema<IUser>({
     type: String,
     required: true
   }
-})
+}).plugin(paginate)
 
-export default mongoose.model('User', UserSchema)
+
+const UserModel = mongoose.model<IUser & Document>('User', UserSchema) as DocumentPaginatedModel<IUser & Document>
+
+export default UserModel
