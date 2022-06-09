@@ -7,11 +7,14 @@ import { PaginateResult } from 'mongoose'
 
 export default {
   index: async (req: Request, res: Response<PaginateResult<IUser & Document>>) => {
-    const { query } = req
+    const { search, ...query } = req.query
 
-    console.log(query)
+    const params = {
+      ...(search ? { name: { $regex: search, $options: 'i' } } : {}),
+    }
+
     try {
-      const users = await UserSchema.paginate({}, query) as PaginateResult<IUser & Document>
+      const users = await UserSchema.paginate(params, query) as PaginateResult<IUser & Document>
       res.status(200).json(users)
     } catch (err) {
       console.log(err)
