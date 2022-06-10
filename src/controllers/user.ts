@@ -8,7 +8,6 @@ import { PaginateResult } from 'mongoose'
 export default {
   index: async (req: Request, res: Response<PaginateResult<IUser & Document>>) => {
     const { search, ...query } = req.query
-
     const params = {
       ...(search ? { name: { $regex: search, $options: 'i' } } : {}),
     }
