@@ -19,8 +19,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.use('/unauth', UnauthRouter)
-app.use('/auth/users', UserRouter)
-app.use('/auth/jobs', JobRouter)
+app.use('/auth/users', verify, UserRouter)
+app.use('/auth/jobs', verify, JobRouter)
 
 mongoose.connect(
   process.env.DB_CONNECTION,

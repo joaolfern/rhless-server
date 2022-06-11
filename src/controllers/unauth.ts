@@ -54,7 +54,8 @@ export default {
       if (user.status === 'inactive') return res.status(401).json('Usuário bloqueado')
 
       const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
-      res.status(200).header('auth-token', token).json({
+
+      res.status(200).json({
         token,
         user
       })

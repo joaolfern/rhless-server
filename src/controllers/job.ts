@@ -1,16 +1,18 @@
 import { Response, Request } from 'express'
 import { PaginateResult } from 'mongoose'
 import JobModel from '../models/job'
-import { IJob } from '../types'
+import { AuthRequest, IJob } from '../types'
 import jobValidation from '../validations/job'
 
 export default {
-  index: async (req: Request, res: Response<PaginateResult<IJob & Document>>) => {
+  index: async (req: AuthRequest, res: Response<PaginateResult<IJob & Document>>) => {
     const { search, ...query } = req.query
 
-    const params = {
+    const params: {[key in keyof IJob]?: any} = {
       ...(search ? { name: { $regex: search, $options: 'i' } } : {}),
     }
+
+    if (req.headers['user-type'] === 'headhunter') params.author = req?.user?._id
 
     try {
       const jobs = await JobModel.paginate(

@@ -1,3 +1,4 @@
+import { Request } from 'express'
 import { Document, PaginateModel } from 'mongoose'
 
 export interface DocumentPaginatedModel<T extends Document> extends PaginateModel<T> {}
@@ -32,4 +33,11 @@ export interface IJob extends Document {
   status: _jobStatus
   author: string
   createdAt: Date
+}
+
+
+export type AuthRequest = Request & {
+  user: {
+    _id: string
+  }
 }
