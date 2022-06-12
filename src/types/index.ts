@@ -41,6 +41,7 @@ export interface IJob extends Document {
   status: _jobStatus
   author: string
   createdAt: Date
+  candidates: ICandidate[]
 }
 
 

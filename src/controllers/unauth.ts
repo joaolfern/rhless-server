@@ -77,9 +77,7 @@ export default {
 
     try {
       const jobs = await JobModel.paginate(
-        {
-          ...params
-        },
+        params,
         {
           ...query,
           populate: 'author',

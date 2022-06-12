@@ -12,6 +12,21 @@ const JobSchema: Schema = new mongoose.Schema<IJob>({
     required: true,
     ref: 'User'
   },
+  candidates: [{
+    type: {
+       user: {
+        type:  mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+       },
+       status: {
+        type: String,
+        required: true
+       },
+       createdAt: {
+        type: Date
+      },
+    },
+  }],
   city: {
     type: String,
     required: true
