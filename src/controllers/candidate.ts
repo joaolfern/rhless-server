@@ -1,7 +1,6 @@
 import { Response, Request } from 'express'
 import { PaginateResult } from 'mongoose'
 import CandidateModel from '../models/candidate'
-import jobController from '../controllers/job'
 import { AuthRequest, ICandidate } from '../types'
 import candidateValidation from '../validations/candidate'
 import dayjs from 'dayjs'
@@ -52,15 +51,19 @@ export default {
     const { error } = candidateValidation.create(req, res)
     if (error) return res.status(401).json(error.details[0].message)
 
-    const Job = new CandidateModel({
-      ...data,
-      createdAt: new Date(dayjs().format()),
-      status: status || 'pending',
-    })
-
     try {
-      await Job.save()
-      res.status(200).json('Candidatura realizada com sucesso!')
+       await CandidateModel.exists({ job: data.job, user: data.user }, async (_, exists) => {
+        if (exists) return res.status(402).json('Você já se candidatou a esta vaga.')
+
+        const Job = new CandidateModel({
+          ...data,
+          createdAt: new Date(dayjs().format()),
+          status: status || 'pending',
+        })
+
+        await Job.save()
+        res.status(200).json('Candidatura realizada com sucesso!')
+      })
     } catch (err) {
       console.log(err)
       res.status(400).json(err)
