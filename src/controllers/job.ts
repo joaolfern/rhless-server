@@ -26,7 +26,6 @@ export default {
         }
       ) as PaginateResult<IJob & Document>
 
-      // const jobs = await JobModel.find().populate('author')
       res.status(200).json(jobs)
     } catch (err) {
       console.log(err)
@@ -65,9 +64,8 @@ export default {
     const data = req.body
     const { _id } = req.params
 
-    const { error } = jobValidation.create(req, res)
+    const { error } = jobValidation.update(req, res)
     if (error) return res.status(401).json(error.details[0].message)
-
 
     try {
       await JobModel.updateOne(

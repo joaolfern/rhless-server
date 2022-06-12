@@ -1,13 +1,13 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import mongoose from 'mongoose'
+import verify from './middlewares/verifyToken'
 
 import UserRouter from './routes/user'
 import UnauthRouter from './routes/unauth'
 import JobRouter from './routes/job'
-
-import mongoose from 'mongoose'
-import verify from './middlewares/verifyToken'
+import CandidateRouter from './routes/candidate'
 
 dotenv.config()
 
@@ -21,6 +21,7 @@ app.use(express.json())
 app.use('/unauth', UnauthRouter)
 app.use('/auth/users', verify, UserRouter)
 app.use('/auth/jobs', verify, JobRouter)
+app.use('/auth/candidates', verify, CandidateRouter)
 
 mongoose.connect(
   process.env.DB_CONNECTION,

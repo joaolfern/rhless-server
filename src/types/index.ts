@@ -41,3 +41,14 @@ export type AuthRequest = Request & {
     _id: string
   }
 }
+
+export type _candidateStatus = 'hired' | 'pending' | 'reproved'
+
+export interface ICandidate extends Document {
+  _id: string
+  job: IJob
+  user: IUser
+  status: _candidateStatus
+  resume: string
+  createdAt: Date
+}
