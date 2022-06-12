@@ -4,6 +4,7 @@ import CandidateModel from '../models/candidate'
 import jobController from '../controllers/job'
 import { AuthRequest, ICandidate } from '../types'
 import candidateValidation from '../validations/candidate'
+import dayjs from 'dayjs'
 
 export default {
   index: async (req: AuthRequest, res: Response<PaginateResult<ICandidate & Document>>) => {
@@ -53,6 +54,7 @@ export default {
 
     const Job = new CandidateModel({
       ...data,
+      createdAt: new Date(dayjs().format()),
       status: status || 'pending',
     })
 
@@ -75,7 +77,10 @@ export default {
     try {
       await CandidateModel.updateOne(
         { _id },
-        data
+        {
+          createdAt: new Date(dayjs().format()),
+          ...data
+        }
       )
 
       res.json(`Candidatura atualizada com sucesso!`)

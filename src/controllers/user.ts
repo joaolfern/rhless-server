@@ -4,6 +4,7 @@ import { IUser } from '../types'
 import bcrypt from 'bcrypt'
 import userValidation from '../validations/user'
 import { PaginateResult } from 'mongoose'
+import dayjs from 'dayjs'
 
 export default {
   index: async (req: Request, res: Response<PaginateResult<IUser & Document>>) => {
@@ -50,6 +51,7 @@ export default {
     const User = new UserSchema({
       ...data,
       email,
+      createdAt: new Date(dayjs().format()),
       password: hashedPassword,
       status: status || 'active'
     })

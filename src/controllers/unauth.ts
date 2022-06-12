@@ -71,6 +71,7 @@ export default {
     const { search, ...query } = req.query
 
     const params: {[key in keyof IJob]?: any} = {
+      status: 'active',
       ...(search ? { name: { $regex: search, $options: 'i' } } : {}),
     }
 

@@ -33,8 +33,7 @@ const JobSchema: Schema = new mongoose.Schema<IJob>({
     required: true
   },
   createdAt: {
-    type: Date,
-    default: new Date()
+    type: Date
   },
 }).plugin(paginate)
 

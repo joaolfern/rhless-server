@@ -1,6 +1,7 @@
 import paginate from 'mongoose-paginate-v2'
 import mongoose, { Schema, Document } from 'mongoose'
 import { DocumentPaginatedModel, ICandidate } from '../types'
+import dayjs from 'dayjs'
 
 const CandidateSchema: Schema = new mongoose.Schema<ICandidate>({
   job: {
@@ -18,8 +19,7 @@ const CandidateSchema: Schema = new mongoose.Schema<ICandidate>({
     required: true
   },
   createdAt: {
-    type: Date,
-    default: new Date()
+    type: Date
   }
 }).plugin(paginate)
 

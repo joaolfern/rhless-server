@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { Response, Request } from 'express'
 import { PaginateResult } from 'mongoose'
 import JobModel from '../models/job'
@@ -49,6 +50,7 @@ export default {
 
     const Job = new JobModel({
       ...data,
+      createdAt: new Date(dayjs().format()),
       status: status || 'active'
     })
 
@@ -70,7 +72,10 @@ export default {
     try {
       await JobModel.updateOne(
         { _id },
-        data
+        {
+          createdAt: new Date(dayjs().format()),
+          ...data
+        }
       )
 
       res.json(`Vaga atualizada com sucesso!`)

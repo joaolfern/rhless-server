@@ -1,6 +1,7 @@
 import paginate from 'mongoose-paginate-v2'
 import mongoose, { Schema, Document } from 'mongoose'
 import { DocumentPaginatedModel, IUser } from '../types'
+import dayjs from 'dayjs'
 
 const UserSchema: Schema = new mongoose.Schema<IUser>({
   name: {
@@ -24,7 +25,6 @@ const UserSchema: Schema = new mongoose.Schema<IUser>({
   },
   createdAt: {
     type: Date,
-    default: new Date()
   },
   password: {
     type: String,

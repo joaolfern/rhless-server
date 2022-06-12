@@ -31,7 +31,7 @@ const jobValidation = {
       .label('Tipo'),
     description: Joi
       .string()
-      .max(500)
+      .max(1000)
       .required()
       .label('Descrição'),
     author: Joi
