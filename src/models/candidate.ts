@@ -20,11 +20,7 @@ const CandidateSchema: Schema = new mongoose.Schema<ICandidate>({
   createdAt: {
     type: Date,
     default: new Date()
-  },
-  resume: {
-    type: String,
-    required: true
-  },
+  }
 }).plugin(paginate)
 
 const JobModel = mongoose.model<ICandidate & Document>('Candidate', CandidateSchema) as DocumentPaginatedModel<ICandidate & Document>

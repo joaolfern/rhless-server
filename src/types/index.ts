@@ -9,7 +9,9 @@ export type _userStatus = 'active' | 'inactive' | 'pending'
 export type _userType = 'admin' | 'headhunter' | 'candidate'
 
 
-export interface IUser extends Document {
+export type IUser = ISystemUser | ICandidateUser
+
+export interface ISystemUser extends Document {
   _id: string
   name: string
   picture: string
@@ -18,6 +20,12 @@ export interface IUser extends Document {
   status: _userStatus
   type: _userType
   createdAt: Date
+}
+
+
+export interface ICandidateUser extends ISystemUser {
+  resume: string
+  type: 'candidate'
 }
 
 export type _jobStatus = 'active' | 'inactive'
@@ -49,6 +57,5 @@ export interface ICandidate extends Document {
   job: IJob
   user: IUser
   status: _candidateStatus
-  resume: string
   createdAt: Date
 }

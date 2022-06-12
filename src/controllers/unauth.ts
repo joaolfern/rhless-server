@@ -2,8 +2,10 @@ import { Request, Response } from 'express'
 import UserSchema from '../models/user'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { IUser } from '../types'
+import { IJob, IUser } from '../types'
 import unauthValidation from '../validations/unauth'
+import { PaginateResult } from 'mongoose'
+import JobModel from '../models/job'
 
 export default {
   requestCreation: async (req: Request, res: Response<string>) => {
@@ -64,5 +66,30 @@ export default {
       console.log(err)
       res.status(400).json(err)
     }
-  }
+  },
+  feed: async (req: Request, res: Response<PaginateResult<IJob & Document>>) => {
+    const { search, ...query } = req.query
+
+    const params: {[key in keyof IJob]?: any} = {
+      ...(search ? { name: { $regex: search, $options: 'i' } } : {}),
+    }
+
+    try {
+      const jobs = await JobModel.paginate(
+        {
+          ...params
+        },
+        {
+          ...query,
+          populate: 'author',
+          sort: { createdAt: -1 }
+        }
+      ) as PaginateResult<IJob & Document>
+
+      res.status(200).json(jobs)
+    } catch (err) {
+      console.log(err)
+      res.status(400).json(err)
+    }
+  },
 }

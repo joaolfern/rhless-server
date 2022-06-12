@@ -37,7 +37,13 @@ const userValidation = {
     confirmPassword: Joi
       .string()
       .required()
-      .label('Confirmação de senha')
+      .label('Confirmação de senha'),
+    resume: Joi
+      .string()
+      .max(500)
+      .optional()
+      .allow('')
+      .label('Currículo'),
   }).validate(req.body),
   update: (req, res) => Joi.object({
     _id: Joi

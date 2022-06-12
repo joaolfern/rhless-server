@@ -12,11 +12,6 @@ const candidateValidation = {
       .max(500)
       .required()
       .label('Vaga'),
-    resume: Joi
-      .string()
-      .max(500)
-      .required()
-      .label('Currículo'),
   }).validate(req.body),
   update: (req, res) => Joi.object({
     user: Joi

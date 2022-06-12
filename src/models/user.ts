@@ -29,7 +29,11 @@ const UserSchema: Schema = new mongoose.Schema<IUser>({
   password: {
     type: String,
     required: true
-  }
+  },
+  resume: {
+    type: String,
+    required: false
+  },
 }).plugin(paginate)
 
 
